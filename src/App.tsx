@@ -1,37 +1,35 @@
-/* eslint-disable import/no-absolute-path */
-/* eslint-disable @typescript-eslint/no-shadow */
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { Component, ChangeEvent } from 'react';
+import Header from './component/Header';
+import Main from './component/Main';
 
-function App() {
-  const [count, setCount] = useState(0);
+interface Props {}
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+interface State {
+  searchTerm: string;
+}
+
+class App extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+    };
+  }
+
+  handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ searchTerm: event.target.value });
+  };
+
+  render() {
+    const { searchTerm } = this.state;
+
+    return (
+      <>
+        <Header onSearchChange={this.handleSearchChange} />
+        <Main searchTitle={searchTerm} />
+      </>
+    );
+  }
 }
 
 export default App;

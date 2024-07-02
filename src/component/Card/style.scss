@@ -1,0 +1,17 @@
+.card {
+  &__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  &__item {
+    max-width: 200px;
+  }
+
+  &__img {
+    width: 182px;
+    height: 268px;
+  }
+}

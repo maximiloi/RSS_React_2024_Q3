@@ -1,0 +1,31 @@
+.search {
+  &__input {
+    padding: 7px 14px;
+
+    border: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__button {
+    padding: 7px 14px;
+
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      color: #790b7b;
+    }
+  }
+}
