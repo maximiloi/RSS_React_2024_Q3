@@ -7,6 +7,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'eslint:recommended',
     'airbnb',
     'airbnb-typescript',
     'airbnb/hooks',
@@ -16,8 +17,13 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: './tsconfig.json',
+  },
   plugins: [
     'react-refresh',
     '@typescript-eslint',
@@ -26,6 +32,7 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    '@typescript-eslint/dot-notation': 'error',
     'react/prefer-stateless-function': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
