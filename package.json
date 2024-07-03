@@ -18,11 +18,10 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --quiet --fix"
     ],
-    "src/**/*.{css,scss}": [
-      "prettier --write"
+    "src/**/*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write --ignore-unknown"
     ]
   },
   "devDependencies": {
