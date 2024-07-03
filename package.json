@@ -18,9 +18,10 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --quiet --fix"
+      "eslint --quiet --fix",
+      "prettier --write --ignore-unknown"
     ],
-    "src/**/*.{json,js,ts,jsx,tsx,html}": [
+    "src/**/*.{json,html,css,scss}": [
       "prettier --write --ignore-unknown"
     ]
   },
