@@ -9,7 +9,7 @@ interface Props {
 }
 
 interface State {
-  mainText: React.ReactText;
+  mainText: string;
 }
 
 class Main extends Component<Props, State> {
