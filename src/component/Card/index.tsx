@@ -3,6 +3,7 @@ import ApiResponse from '../../utils/apiResponse';
 import LocalStorage from '../../utils/localStorage';
 
 import './style.scss';
+import Spinner from '../Spinner';
 
 interface Props {
   searchWord: string;
@@ -16,53 +17,71 @@ interface ResponseState {
 }
 
 interface State {
-  responseData: null | ResponseState[];
+  responseData: ResponseState[];
+  isLoading: boolean;
 }
 
 class Card extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { responseData: null };
+    this.state = {
+      responseData: [],
+      isLoading: false,
+    };
   }
 
-  async componentDidMount() {
-    const valueLocalStorage = LocalStorage.getResult();
-
-    if (typeof valueLocalStorage === 'string') {
-      const response: ResponseState[] =
-        await ApiResponse.fetchData(valueLocalStorage);
-      this.setState({ responseData: response });
-    }
+  componentDidMount() {
+    let searchTerm = LocalStorage.getResult();
+    searchTerm = searchTerm || 'star wars';
+    this.getResponse(searchTerm);
   }
 
-  async componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const { searchWord } = this.props;
 
     if (prevProps.searchWord !== searchWord) {
-      const response: ResponseState[] = await ApiResponse.fetchData(searchWord);
-      this.setState({ responseData: response });
+      this.getResponse(searchWord);
+    }
+  }
+
+  async getResponse(searchTerm: string) {
+    this.setState({ isLoading: true });
+    try {
+      const response: ResponseState[] = await ApiResponse.fetchData(searchTerm);
+      this.setState({ responseData: response, isLoading: false });
+    } catch (error) {
+      throw Error('Error fetching movie data:');
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
   render() {
-    const { responseData } = this.state;
+    const { responseData, isLoading } = this.state;
 
     return (
-      <div className="card card__wrapper">
-        {responseData &&
-          responseData.map(({ imdbID, Title, Poster, Year }: ResponseState) => (
-            <div className="card__item" key={imdbID}>
-              <img
-                className="card__img"
-                src={Poster}
-                alt={Title}
-                width="182px"
-                height="268px"
-              />
-              <p>{Year}</p>
-              <h3>{Title}</h3>
-            </div>
-          ))}
+      <div>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="card card__wrapper">
+            {responseData?.map(
+              ({ imdbID, Title, Poster, Year }: ResponseState) => (
+                <div className="card__item" key={imdbID}>
+                  <img
+                    className="card__img"
+                    src={Poster}
+                    alt={Title}
+                    width="182px"
+                    height="268px"
+                  />
+                  <p>{Year}</p>
+                  <h3>{Title}</h3>
+                </div>
+              )
+            )}
+          </div>
+        )}
       </div>
     );
   }
