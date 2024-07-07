@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import spinnerImg from '../../assets/cinema.png';
+
 import './style.scss';
 
 class Spinner extends Component {
