@@ -26,7 +26,11 @@ class Card extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    const valueLocalStorage = LocalStorage.getResult();
+    let valueLocalStorage = LocalStorage.getResult();
+
+    if (!valueLocalStorage) {
+      valueLocalStorage = 'star wars';
+    }
 
     if (typeof valueLocalStorage === 'string') {
       const response: ResponseState[] =
