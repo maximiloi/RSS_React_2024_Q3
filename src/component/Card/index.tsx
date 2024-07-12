@@ -1,90 +1,46 @@
-import { Component } from 'react';
-import ApiResponse from '../../utils/apiResponse';
-import LocalStorage from '../../utils/localStorage';
-
-import './style.scss';
+import { useEffect, useState } from 'react';
+import fetchData, { MovieData } from '../../utils/apiResponse';
 import Spinner from '../Spinner';
 
-interface Props {
-  searchWord: string;
-}
+import './style.scss';
 
-interface ResponseState {
-  readonly imdbID?: string;
-  readonly Title?: string;
-  readonly Poster?: string;
-  readonly Year?: string;
-}
+function Card({ searchWord }: { searchWord: string }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [responseData, setResponseData] = useState<MovieData[]>([]);
 
-interface State {
-  responseData: ResponseState[];
-  isLoading: boolean;
-}
-
-class Card extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      responseData: [],
-      isLoading: false,
-    };
-  }
-
-  componentDidMount() {
-    let searchTerm = LocalStorage.getResult();
-    searchTerm = searchTerm || 'star wars';
-    this.getResponse(searchTerm);
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    const { searchWord } = this.props;
-
-    if (prevProps.searchWord !== searchWord) {
-      this.getResponse(searchWord);
-    }
-  }
-
-  async getResponse(searchTerm: string) {
-    this.setState({ isLoading: true });
+  const getResponse = async (searchTerm: string) => {
+    setIsLoading(true);
     try {
-      const response: ResponseState[] = await ApiResponse.fetchData(searchTerm);
-      this.setState({ responseData: response, isLoading: false });
+      const response: MovieData[] = await fetchData(searchTerm);
+      setResponseData(response);
     } catch (error) {
       throw Error('Error fetching movie data:');
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
-  }
+  };
 
-  render() {
-    const { responseData, isLoading } = this.state;
+  useEffect(() => {
+    getResponse(searchWord);
+  }, [searchWord]);
 
-    return (
-      <div>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <div className="card card__wrapper">
-            {responseData?.map(
-              ({ imdbID, Title, Poster, Year }: ResponseState) => (
-                <div className="card__item" key={imdbID}>
-                  <img
-                    className="card__img"
-                    src={Poster}
-                    alt={Title}
-                    width="182px"
-                    height="268px"
-                  />
-                  <p>{Year}</p>
-                  <h3>{Title}</h3>
-                </div>
-              )
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="card card__wrapper">
+          {responseData?.map(({ imdbID, Title, Poster, Year }) => (
+            <div className="card__item" key={imdbID}>
+              <img className="card__img" src={Poster} alt={Title} />
+              <p>{Year}</p>
+              <h3>{Title}</h3>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Card;
