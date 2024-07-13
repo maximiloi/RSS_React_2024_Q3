@@ -1,7 +1,5 @@
 import Card from '../Card';
 
-import './style.scss';
-
 function Main() {
   return (
     <main>
