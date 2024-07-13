@@ -5,7 +5,7 @@ import './style.scss';
 
 function Search() {
   const [inputValue, setInputValue] = useState<string>('');
-  const [, setValue] = useLocalStorage('saw');
+  const [, setValue] = useLocalStorage();
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
