@@ -24,23 +24,21 @@ function Card({ searchWord }: { searchWord: string }) {
     getResponse(searchWord);
   }, [searchWord]);
 
-  return (
-    <div>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="card card__wrapper">
-          {responseData?.map(({ imdbID, Title, Poster, Year }) => (
-            <div className="card__item" key={imdbID}>
-              <img className="card__img" src={Poster} alt={Title} />
-              <p>{Year}</p>
-              <h3>{Title}</h3>
-            </div>
-          ))}
+  const content = isLoading ? (
+    <Spinner />
+  ) : (
+    <div className="card card__wrapper">
+      {responseData?.map(({ imdbID, Title, Poster, Year }) => (
+        <div className="card__item" key={imdbID}>
+          <img className="card__img" src={Poster} alt={Title} />
+          <p>{Year}</p>
+          <h3>{Title}</h3>
         </div>
-      )}
+      ))}
     </div>
   );
+
+  return content;
 }
 
 export default Card;
