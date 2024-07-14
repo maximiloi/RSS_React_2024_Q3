@@ -44,6 +44,7 @@ module.exports = {
     'react-compiler/react-compiler': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': ['error', 'only-multiline'],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'react/prop-types': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',
