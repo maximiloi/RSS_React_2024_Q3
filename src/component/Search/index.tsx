@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
@@ -8,11 +8,11 @@ function Search() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState<string>('');
-  const [, setValue] = useLocalStorage();
+  const [, setSearchTerm] = useLocalStorage('');
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setValue(inputValue);
+    setSearchTerm(inputValue.trim());
     searchParams.set('search', inputValue);
     navigate(`?${searchParams.toString()}`);
   };
@@ -24,9 +24,9 @@ function Search() {
   useEffect(() => {
     const query = searchParams.get('search');
     if (!query) return;
-    setValue(query);
+    setSearchTerm(query.trim());
     setInputValue(query);
-  }, [searchParams, setValue]);
+  }, []);
 
   return (
     <form className="search" onSubmit={handleSearch}>
