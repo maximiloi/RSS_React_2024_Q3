@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import fetchData, { MovieData } from '../../utils/apiResponse';
+import fetchData, { Movie } from '../../utils/apiResponse';
 import Spinner from '../Spinner';
 
 import './style.scss';
@@ -11,15 +11,20 @@ function Card() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('search');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [responseData, setResponseData] = useState<MovieData[]>([]);
+  const [responseMovies, setResponseMovies] = useState<Movie[]>([]);
 
   const getResponse = async (searchTerm: string) => {
     setIsLoading(true);
+
     try {
-      const response: MovieData[] = await fetchData(searchTerm);
-      setResponseData(response);
+      const response = await fetchData(searchTerm);
+      if (response && response.Search) {
+        setResponseMovies(response.Search);
+      } else {
+        throw new Error('No movie data found');
+      }
     } catch (error) {
-      throw Error('Error fetching movie data:');
+      console.error('Error fetching movie data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +48,7 @@ function Card() {
     <Spinner />
   ) : (
     <div className="card card__wrapper">
-      {responseData?.map(({ imdbID, Title, Poster, Year }) => (
+      {responseMovies?.map(({ imdbID, Title, Poster, Year }) => (
         <div className="card__item" key={imdbID}>
           <img className="card__img" src={Poster} alt={Title} />
           <p>{Year}</p>

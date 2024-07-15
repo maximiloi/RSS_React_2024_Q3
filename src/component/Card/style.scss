@@ -4,7 +4,7 @@
     justify-content: space-between;
     justify-items: center;
     grid-template-columns: repeat(5, 200px);
-    gap: 35px;
+    column-gap: 35px;
   }
 
   &__img {
