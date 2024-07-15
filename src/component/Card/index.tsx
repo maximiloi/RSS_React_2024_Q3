@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import fetchData, { Movie } from '../../utils/apiResponse';
@@ -6,7 +6,11 @@ import Spinner from '../Spinner';
 
 import './style.scss';
 
-function Card() {
+interface CardProps {
+  getTotalResult: (value: number) => void;
+}
+
+function Card({ getTotalResult }: CardProps): ReactElement {
   const [searchTermLS] = useLocalStorage('');
   const [searchParams] = useSearchParams();
   const query = searchParams.get('search');
@@ -20,6 +24,7 @@ function Card() {
       const response = await fetchData(searchTerm);
       if (response && response.Search) {
         setResponseMovies(response.Search);
+        getTotalResult(Number(response.totalResults));
       } else {
         throw new Error('No movie data found');
       }
