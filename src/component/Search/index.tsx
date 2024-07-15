@@ -22,10 +22,10 @@ function Search() {
   };
 
   useEffect(() => {
-    const query = searchParams.get('search');
-    if (!query) return;
-    setSearchTerm(query.trim());
-    setInputValue(query);
+    const searchValue = searchParams.get('search');
+    if (!searchValue) return;
+    setSearchTerm(searchValue.trim());
+    setInputValue(searchValue);
   }, []);
 
   return (
