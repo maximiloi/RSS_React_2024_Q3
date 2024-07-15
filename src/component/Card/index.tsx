@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import fetchData, { Movie } from '../../utils/apiResponse';
 import Spinner from '../Spinner';
@@ -14,15 +14,17 @@ interface CardProps {
 function Card({ getTotalResult }: CardProps): ReactElement {
   const [searchTermLS] = useLocalStorage('');
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const searchValue = searchParams.get('search');
+  const pageNumber = searchParams.get('page');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseMovies, setResponseMovies] = useState<Movie[]>([]);
 
-  const getResponse = async (searchTerm: string) => {
+  const getResponse = async (searchTerm: string, page?: number) => {
     setIsLoading(true);
 
     try {
-      const response = await fetchData(searchTerm);
+      const response = await fetchData(searchTerm, page);
       if (response && response.Search) {
         setResponseMovies(response.Search);
         getTotalResult(Number(response.totalResults));
@@ -39,16 +41,19 @@ function Card({ getTotalResult }: CardProps): ReactElement {
 
   useEffect(() => {
     if (searchValue !== null) {
-      getResponse(searchValue);
+      getResponse(searchValue, Number(pageNumber));
     }
-  }, [searchValue]);
+  }, [searchValue, pageNumber]);
 
   useEffect(() => {
     if (searchTermLS) {
       getResponse(searchTermLS);
+      searchParams.set('search', searchTermLS);
     } else {
       getResponse('star wars');
+      searchParams.set('search', 'star wars');
     }
+    navigate(`?${searchParams.toString()}`);
   }, []);
 
   const content = isLoading ? (
