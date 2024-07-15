@@ -4,6 +4,7 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 import fetchData, { Movie } from '../../utils/apiResponse';
 import Spinner from '../Spinner';
 
+import noMovieImg from '../../assets/no-image.svg';
 import './style.scss';
 
 interface CardProps {
@@ -13,7 +14,7 @@ interface CardProps {
 function Card({ getTotalResult }: CardProps): ReactElement {
   const [searchTermLS] = useLocalStorage('');
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('search');
+  const searchValue = searchParams.get('search');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseMovies, setResponseMovies] = useState<Movie[]>([]);
 
@@ -37,10 +38,10 @@ function Card({ getTotalResult }: CardProps): ReactElement {
   };
 
   useEffect(() => {
-    if (query !== null) {
-      getResponse(query);
+    if (searchValue !== null) {
+      getResponse(searchValue);
     }
-  }, [query]);
+  }, [searchValue]);
 
   useEffect(() => {
     if (searchTermLS) {
@@ -56,7 +57,11 @@ function Card({ getTotalResult }: CardProps): ReactElement {
     <div className="card card__wrapper">
       {responseMovies?.map(({ imdbID, Title, Poster, Year }) => (
         <div className="card__item" key={imdbID}>
-          <img className="card__img" src={Poster} alt={Title} />
+          <img
+            className="card__img"
+            src={Poster === 'N/A' ? noMovieImg : Poster}
+            alt={Title}
+          />
           <p>{Year}</p>
           <h3>{Title}</h3>
         </div>
