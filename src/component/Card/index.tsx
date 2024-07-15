@@ -30,6 +30,7 @@ function Card({ getTotalResult }: CardProps): ReactElement {
       }
     } catch (error) {
       console.error('Error fetching movie data:', error);
+      throw new Error('Error fetching movie data');
     } finally {
       setIsLoading(false);
     }

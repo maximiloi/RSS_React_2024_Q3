@@ -12,9 +12,12 @@ interface ResponseData {
   Response: 'True' | 'False';
 }
 
-const fetchData = async (value: string): Promise<ResponseData> => {
+const fetchData = async (
+  value: string,
+  page: number = 1
+): Promise<ResponseData> => {
   try {
-    const url = `https://www.omdbapi.com/?s=${value}&apikey=67e1bb9b`;
+    const url = `https://www.omdbapi.com/?apikey=67e1bb9b&s=${value}&page=${page}`;
     const response = await fetch(url);
     const data = await response.json();
     return data || [];
