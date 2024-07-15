@@ -1,0 +1,11 @@
+.pagination {
+  list-style: none;
+
+  display: flex;
+  gap: 15px;
+  &__item {
+    &.active {
+      font-size: x-large;
+    }
+  }
+}
