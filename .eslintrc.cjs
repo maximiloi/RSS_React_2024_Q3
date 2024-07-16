@@ -17,7 +17,12 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    'vite.config.ts',
+    'vite.config.d.ts',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
@@ -39,6 +44,7 @@ module.exports = {
     'react-compiler/react-compiler': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     'comma-dangle': ['error', 'only-multiline'],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'react/prop-types': 'off',
     'react/display-name': 'off',
     '@typescript-eslint/interface-name-prefix': 'off',

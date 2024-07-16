@@ -1,71 +1,82 @@
-import { Component } from 'react';
-import ApiResponse from '../../utils/apiResponse';
-import LocalStorage from '../../utils/localStorage';
+import { ReactElement, useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { Movies, fetchMovies } from '../../utils/apiResponse';
+import Spinner from '../Spinner';
 
+import noMovieImg from '../../assets/no-image.svg';
 import './style.scss';
 
-interface Props {
-  searchWord: string;
+interface CardProps {
+  getTotalResult: (value: number) => void;
 }
 
-interface ResponseState {
-  readonly imdbID?: string;
-  readonly Title?: string;
-  readonly Poster?: string;
-  readonly Year?: string;
-}
+function Card({ getTotalResult }: CardProps): ReactElement {
+  const [searchTermLS] = useLocalStorage('');
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const searchValue = searchParams.get('search');
+  const pageNumber = searchParams.get('page');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [responseMovies, setResponseMovies] = useState<Movies[]>([]);
 
-interface State {
-  responseData: null | ResponseState[];
-}
+  const getResponse = async (searchTerm: string, page?: number) => {
+    setIsLoading(true);
 
-class Card extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { responseData: null };
-  }
-
-  async componentDidMount() {
-    const valueLocalStorage = LocalStorage.getResult();
-
-    if (typeof valueLocalStorage === 'string') {
-      const response: ResponseState[] =
-        await ApiResponse.fetchData(valueLocalStorage);
-      this.setState({ responseData: response });
+    try {
+      const response = await fetchMovies(searchTerm, page);
+      if (response && response.Search) {
+        setResponseMovies(response.Search);
+        getTotalResult(Number(response.totalResults));
+      } else {
+        throw new Error('No movie data found');
+      }
+    } catch (error) {
+      console.error('Error fetching movie data:', error);
+      throw new Error('Error fetching movie data');
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
 
-  async componentDidUpdate(prevProps: Props) {
-    const { searchWord } = this.props;
-
-    if (prevProps.searchWord !== searchWord) {
-      const response: ResponseState[] = await ApiResponse.fetchData(searchWord);
-      this.setState({ responseData: response });
+  useEffect(() => {
+    if (searchValue !== null) {
+      getResponse(searchValue, Number(pageNumber));
     }
-  }
+  }, [searchValue, pageNumber]);
 
-  render() {
-    const { responseData } = this.state;
+  useEffect(() => {
+    if (searchTermLS) {
+      getResponse(searchTermLS);
+      searchParams.set('search', searchTermLS);
+    } else {
+      getResponse('star wars');
+      searchParams.set('search', 'star wars');
+    }
+    navigate(`?${searchParams.toString()}`);
+  }, []);
 
-    return (
-      <div className="card card__wrapper">
-        {responseData &&
-          responseData.map(({ imdbID, Title, Poster, Year }: ResponseState) => (
-            <div className="card__item" key={imdbID}>
-              <img
-                className="card__img"
-                src={Poster}
-                alt={Title}
-                width="182px"
-                height="268px"
-              />
-              <p>{Year}</p>
-              <h3>{Title}</h3>
-            </div>
-          ))}
-      </div>
-    );
-  }
+  const content = isLoading ? (
+    <Spinner />
+  ) : (
+    <div className="card card__wrapper">
+      {responseMovies?.map(({ imdbID, Title, Poster, Year }) => (
+        <div className="card__item" key={imdbID}>
+          <Link to={`movie/${imdbID}`}>
+            <img
+              className="card__img"
+              src={Poster === 'N/A' ? noMovieImg : Poster}
+              alt={Title}
+            />
+            <p>{Year}</p>
+            <h3>{Title}</h3>
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+
+  return content;
 }
 
 export default Card;

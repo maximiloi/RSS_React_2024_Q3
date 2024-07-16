@@ -1,71 +1,47 @@
-import { Component, ChangeEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 import './style.scss';
 
-interface InputValueState {
-  inputValue: string;
-}
+function Search() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [, setSearchTerm] = useLocalStorage('');
 
-interface InputValueProps {
-  onSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-class Search extends Component<InputValueProps, InputValueState> {
-  constructor(props: InputValueProps) {
-    super(props);
-    this.state = {
-      inputValue: '',
-    };
-  }
-
-  handleSearch = () => {
-    const { onSearchChange } = this.props;
-    const { inputValue } = this.state;
-
-    onSearchChange({
-      target: {
-        value: inputValue,
-      },
-    } as ChangeEvent<HTMLInputElement>);
-
-    if (inputValue) {
-      localStorage.setItem('name-cinema-iloi', inputValue);
-    }
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchTerm(inputValue.trim());
+    searchParams.set('search', inputValue);
+    navigate(`?${searchParams.toString()}`);
   };
 
-  handleKeyPress = ({ key }: { key: string }) => {
-    if (key === 'Enter') {
-      this.handleSearch();
-    }
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: event.target.value });
-  };
+  useEffect(() => {
+    const searchValue = searchParams.get('search');
+    if (!searchValue) return;
+    setSearchTerm(searchValue.trim());
+    setInputValue(searchValue);
+  }, []);
 
-  render() {
-    const { inputValue } = this.state;
-
-    return (
-      <div className="search">
-        <input
-          type="text"
-          className="search__input"
-          placeholder="search movie..."
-          value={inputValue}
-          onChange={this.handleInputChange}
-          onKeyDown={this.handleKeyPress}
-        />
-        <button
-          type="submit"
-          className="search__button"
-          onClick={this.handleSearch}
-        >
-          search
-        </button>
-      </div>
-    );
-  }
+  return (
+    <form className="search" onSubmit={handleSearch}>
+      <input
+        type="text"
+        className="search__input"
+        placeholder="search movie..."
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+      <button type="submit" className="search__button">
+        search
+      </button>
+    </form>
+  );
 }
 
 export default Search;

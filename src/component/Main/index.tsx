@@ -1,46 +1,27 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Pagination from '../Pagination';
 import Card from '../Card';
-import LocalStorage from '../../utils/localStorage';
 
 import './style.scss';
 
-interface Props {
-  searchTitle: string;
-}
+function Main() {
+  const [totalResults, setTotalResults] = useState(0);
 
-interface State {
-  mainText: string;
-}
+  const handleTotalResult = (value: number) => {
+    setTotalResults(value);
+  };
 
-class Main extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      mainText: '',
-    };
-  }
-
-  componentDidMount() {
-    const valueLocalStorage = LocalStorage.getResult();
-    const mainText = valueLocalStorage
-      ? `Your last request "${valueLocalStorage}"`
-      : `Type in the title of the movie in English`;
-
-    this.setState({ mainText });
-  }
-
-  render() {
-    const { mainText } = this.state;
-    const { searchTitle } = this.props;
-
-    return (
-      <main>
-        <h2>{mainText}</h2>
-        <Card searchWord={searchTitle} />
-      </main>
-    );
-  }
+  return (
+    <main>
+      <div className="main__container">
+        <h2>Type in the title of the movie in English</h2>
+        {totalResults >= 10 && <Pagination totalResults={totalResults} />}
+      </div>
+      <Card getTotalResult={handleTotalResult} />
+      <Outlet />
+    </main>
+  );
 }
 
 export default Main;
