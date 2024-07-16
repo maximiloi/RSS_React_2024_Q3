@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Pagination from '../Pagination';
 import Card from '../Card';
 
@@ -18,6 +19,7 @@ function Main() {
         {totalResults >= 10 && <Pagination totalResults={totalResults} />}
       </div>
       <Card getTotalResult={handleTotalResult} />
+      <Outlet />
     </main>
   );
 }
