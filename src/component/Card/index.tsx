@@ -1,10 +1,15 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../hooks/useActions';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { Movies, fetchMovies } from '../../utils/apiResponse';
+import { RootState } from '../../store/store';
 import Spinner from '../Spinner';
 
 import noMovieImg from '../../assets/no-image.svg';
+import favMovie from '../../assets/fav.svg';
+import noFavMovie from '../../assets/no-fav.svg';
 import './style.scss';
 
 interface CardProps {
@@ -12,6 +17,8 @@ interface CardProps {
 }
 
 function Card({ getTotalResult }: CardProps): ReactElement {
+  const { selected } = useSelector((state: RootState) => state);
+  const { toggleSelected } = useActions();
   const [searchTermLS] = useLocalStorage('');
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -19,6 +26,10 @@ function Card({ getTotalResult }: CardProps): ReactElement {
   const pageNumber = searchParams.get('page');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseMovies, setResponseMovies] = useState<Movies[]>([]);
+
+  const isExist = (item: string): boolean => {
+    return selected.includes(item);
+  };
 
   const getResponse = async (searchTerm: string, page?: number) => {
     setIsLoading(true);
@@ -62,6 +73,16 @@ function Card({ getTotalResult }: CardProps): ReactElement {
     <div className="card card__wrapper">
       {responseMovies?.map(({ imdbID, Title, Poster, Year }) => (
         <div className="card__item" key={imdbID}>
+          <button
+            type="button"
+            className="card__button button"
+            onClick={() => toggleSelected(imdbID)}
+          >
+            <img
+              src={isExist(imdbID) ? favMovie : noFavMovie}
+              alt="selected movie"
+            />
+          </button>
           <Link to={`movie/${imdbID}`}>
             <img
               className="card__img"
