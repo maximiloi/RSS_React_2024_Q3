@@ -50,12 +50,6 @@
       "error",
       "only-multiline"
     ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "dependencies": true
-      }
-    ],
     "no-console": [
       "error",
       {
