@@ -1,26 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+// import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useGetMoviesQuery } from '../../store/api';
 
 import './style.scss';
 
-interface PaginationProps {
-  totalResults: number;
-}
-
-const Pagination = ({ totalResults }: PaginationProps) => {
+const Pagination = () => {
   const NUMBER_CARD_ON_PAGE = 10;
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [activePage, setActivePage] = useState(1);
+  // const [searchParams] = useSearchParams();
+  // const navigate = useNavigate();
+  const { data, isLoading } = useGetMoviesQuery({});
 
-  const [totalFilmsPage, setTotalFilmsPage] = useState(
-    Math.ceil(totalResults / NUMBER_CARD_ON_PAGE)
-  );
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  const totalResults = data.totalResults || 0;
+  const totalFilmsPage = Math.ceil(totalResults / NUMBER_CARD_ON_PAGE);
 
   const handleSetPage = (page: number) => {
     setActivePage(page);
-    searchParams.set('page', page.toString());
-    navigate(`?${searchParams.toString()}`);
+    // searchParams.set('page', page.toString());
+    // navigate(`?${searchParams.toString()}`);
   };
 
   const renderPages = () => {
@@ -66,17 +67,13 @@ const Pagination = ({ totalResults }: PaginationProps) => {
     ));
   };
 
-  useEffect(() => {
-    setTotalFilmsPage(Math.floor(totalResults / NUMBER_CARD_ON_PAGE) + 1);
-    handleSetPage(1);
-  }, [totalResults]);
+  if (!totalResults) return null;
 
-  useEffect(() => {
-    searchParams.set('page', '1');
-    navigate(`?${searchParams.toString()}`);
-  }, []);
-
-  return <ul className="pagination">{renderPages()}</ul>;
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
+    <ul className="pagination">{renderPages()}</ul>
+  );
 };
 
 export default Pagination;
