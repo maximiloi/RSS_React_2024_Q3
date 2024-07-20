@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true,
     "jest": true,
-    "node": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -14,19 +14,19 @@
     "plugin:react-hooks/recommended",
     "plugin:react/recommended",
     "prettier",
-    "plugin:prettier/recommended",
+    "plugin:prettier/recommended"
   ],
   "ignorePatterns": [
     "dist",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "vite.config.d.ts",
+    "vite.config.d.ts"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "project": "./tsconfig.json",
-    "sourceType": "module",
+    "sourceType": "module"
   },
   "plugins": [
     "@typescript-eslint",
@@ -34,7 +34,7 @@
     "react-compiler",
     "react-hooks",
     "react-refresh",
-    "prettier",
+    "prettier"
   ],
   "root": true,
   "rules": {
@@ -46,12 +46,24 @@
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "comma-dangle": ["error", "only-multiline"],
+    "comma-dangle": [
+      "error",
+      "only-multiline"
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "dependencies": true
+      }
+    ],
     "no-console": [
       "error",
       {
-        "allow": ["warn", "error"],
-      },
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
     ],
     "react-compiler/react-compiler": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -60,12 +72,12 @@
     "react/function-component-definition": [
       2,
       {
-        "namedComponents": "arrow-function",
-      },
+        "namedComponents": "arrow-function"
+      }
     ],
     "react/jsx-uses-react": "off",
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-  },
+    "react/react-in-jsx-scope": "off"
+  }
 }
