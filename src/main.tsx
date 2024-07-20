@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './component/ErrorBoundary';
+import { ThemeProvider } from './context/ThemeContext';
 
 import App from './pages/App';
 import ErrorPage from './pages/ErrorPage';
@@ -24,7 +25,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <ErrorBoundary>
-    <RouterProvider router={router} />
-  </ErrorBoundary>
+  <ThemeProvider>
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  </ThemeProvider>
 );

@@ -2,14 +2,25 @@
 
 body {
   font-family: 'JetBrains Mono', monospace;
+}
 
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 
   height: 100%;
   min-height: 100vh;
+  padding: 15px 30px;
+}
 
-  background-image: linear-gradient(
+.content.theme-blue {
+  background: linear-gradient(
     to left bottom,
     #790b7b,
     #6a45a6,
@@ -19,8 +30,20 @@ body {
   );
 }
 
-#root {
-  padding: 15px 30px;
-  max-width: 1200px;
-  width: 100%;
+.content.theme-green {
+  background-image: linear-gradient(
+    to right bottom,
+    #667e54,
+    #6f9060,
+    #77a36d,
+    #7db77c,
+    #82cb8c,
+    #80d699,
+    #7de2a8,
+    #79edb7,
+    #70f1c6,
+    #68f5d5,
+    #62f8e3,
+    #5ffbf1
+  );
 }
