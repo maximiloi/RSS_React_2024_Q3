@@ -4,7 +4,7 @@ import useLocalStorage from '../../hooks/useLocalStorage';
 
 import './style.scss';
 
-function Search() {
+const Search = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState<string>('');
@@ -42,6 +42,6 @@ function Search() {
       </button>
     </form>
   );
-}
+};
 
 export default Search;

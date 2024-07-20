@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useActions } from '../../hooks/useActions';
+import useActions from '../../hooks/useActions';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { Movies, fetchMovies } from '../../utils/apiResponse';
 import { RootState } from '../../store/store';

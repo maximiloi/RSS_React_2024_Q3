@@ -21,7 +21,7 @@ export const movieLoader: LoaderFunction<{ params: MovieId }> = async ({
   }
 };
 
-function Movie() {
+const Movie = () => {
   const { movieData } = useLoaderData() as { movieData: ResponseMovie };
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(true);
@@ -60,6 +60,6 @@ function Movie() {
       </div>
     )
   );
-}
+};
 
 export default Movie;

@@ -5,7 +5,7 @@ import Card from '../Card';
 
 import './style.scss';
 
-function Main() {
+const Main = () => {
   const [totalResults, setTotalResults] = useState(0);
 
   const handleTotalResult = (value: number) => {
@@ -22,6 +22,6 @@ function Main() {
       <Outlet />
     </main>
   );
-}
+};
 
 export default Main;

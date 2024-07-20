@@ -7,7 +7,7 @@ interface PaginationProps {
   totalResults: number;
 }
 
-function Pagination({ totalResults }: PaginationProps) {
+const Pagination = ({ totalResults }: PaginationProps) => {
   const NUMBER_CARD_ON_PAGE = 10;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -77,6 +77,6 @@ function Pagination({ totalResults }: PaginationProps) {
   }, []);
 
   return <ul className="pagination">{renderPages()}</ul>;
-}
+};
 
 export default Pagination;

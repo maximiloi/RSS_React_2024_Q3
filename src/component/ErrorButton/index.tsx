@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './style.scss';
 
-function ErrorButton() {
+const ErrorButton = () => {
   const [isError, setIsError] = useState(false);
 
   if (isError) {
@@ -17,6 +17,6 @@ function ErrorButton() {
       throw an error
     </button>
   );
-}
+};
 
 export default ErrorButton;
