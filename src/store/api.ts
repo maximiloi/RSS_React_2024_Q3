@@ -7,16 +7,10 @@ const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
-  tagTypes: ['Page'],
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: ({ searchTerm = 'star wars', page = 1 }) =>
+      query: ({ searchTerm = 'star wars', page = '1' }) =>
         `?apikey=67e1bb9b&type=movie&s=${searchTerm}&page=${page}`,
-      providesTags: () => [
-        {
-          type: 'Page',
-        },
-      ],
     }),
   }),
 });

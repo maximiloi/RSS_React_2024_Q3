@@ -1,27 +1,30 @@
-import { useState } from 'react';
-// import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useGetMoviesQuery } from '../../store/api';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import useActions from '../../hooks/useActions';
+import { RootState } from '../../store/store';
 
 import './style.scss';
 
 const Pagination = () => {
   const NUMBER_CARD_ON_PAGE = 10;
-  const [activePage, setActivePage] = useState(1);
-  // const [searchParams] = useSearchParams();
-  // const navigate = useNavigate();
-  const { data, isLoading } = useGetMoviesQuery({});
+  const [activePage, setActivePage] = useState<number>(1);
+  const [totalResults, setTotalResults] = useState<string>('1');
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+  const { updatePage } = useActions();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const totalResultsStore = useSelector(
+    (state: RootState) => state.search.totalResults
+  );
 
-  const totalResults = data.totalResults || 0;
-  const totalFilmsPage = Math.ceil(totalResults / NUMBER_CARD_ON_PAGE);
+  const totalFilmsPage = Math.ceil(Number(totalResults) / NUMBER_CARD_ON_PAGE);
 
   const handleSetPage = (page: number) => {
     setActivePage(page);
-    // searchParams.set('page', page.toString());
-    // navigate(`?${searchParams.toString()}`);
+    updatePage(page.toString());
+    searchParams.set('page', page.toString());
+    navigate(`?${searchParams.toString()}`);
   };
 
   const renderPages = () => {
@@ -67,13 +70,11 @@ const Pagination = () => {
     ));
   };
 
-  if (!totalResults) return null;
+  useEffect(() => {
+    setTotalResults(totalResultsStore.toString());
+  }, [totalResultsStore]);
 
-  return isLoading ? (
-    <div>Loading...</div>
-  ) : (
-    <ul className="pagination">{renderPages()}</ul>
-  );
+  return <ul className="pagination">{renderPages()}</ul>;
 };
 
 export default Pagination;

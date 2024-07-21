@@ -1,32 +1,48 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useActions from '../../hooks/useActions';
-// import useLocalStorage from '../../hooks/useLocalStorage';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import { Movies } from '../../utils/apiResponse';
 import { RootState } from '../../store/store';
+import { useGetMoviesQuery } from '../../store/api';
 import Spinner from '../Spinner';
 
 import noMovieImg from '../../assets/no-image.svg';
 import favMovie from '../../assets/fav.svg';
 import noFavMovie from '../../assets/no-fav.svg';
 import './style.scss';
-import { useGetMoviesQuery } from '../../store/api';
 
-function Card(): ReactElement {
+const Card = (): ReactElement => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTermLS] = useLocalStorage();
+  const { toggleSelected, updateTotalResults } = useActions();
   const selected = useSelector((state: RootState) => state.selected);
-  const { toggleSelected } = useActions();
-  const { isLoading, data } = useGetMoviesQuery({});
+  const searchWord = useSelector((state: RootState) => state.search.searchWord);
+  const pageString = useSelector((state: RootState) => state.search.page);
 
-  // const [searchTermLS] = useLocalStorage('');
-  // const [searchParams] = useSearchParams();
-  // const navigate = useNavigate();
-  // const searchValue = searchParams.get('search');
-  // const pageNumber = searchParams.get('page');
+  const { data, isLoading } = useGetMoviesQuery({
+    searchTerm,
+    page: pageString,
+  });
+
+  if (data) {
+    updateTotalResults(data.totalResults);
+  }
 
   const isExist = (item: string): boolean => {
     return selected.includes(item);
   };
+
+  useEffect(() => {
+    setSearchTerm(searchWord);
+  }, [searchWord]);
+
+  useEffect(() => {
+    if (searchTermLS) {
+      setSearchTerm(searchTermLS);
+    }
+  }, [searchTermLS]);
 
   const content = isLoading ? (
     <Spinner />
@@ -59,6 +75,6 @@ function Card(): ReactElement {
   );
 
   return content;
-}
+};
 
 export default Card;

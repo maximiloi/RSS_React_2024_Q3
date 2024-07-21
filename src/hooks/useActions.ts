@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
-import { actions } from '../store/selected.slice';
+import { actions as actionsSelected } from '../store/selected.slice';
+import { actions as actionsSearch } from '../store/search.slice';
 
 const rootActions = {
-  ...actions,
+  ...actionsSelected,
+  ...actionsSearch,
 };
 
 const useActions = () => {
