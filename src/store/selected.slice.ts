@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 const initialState: string[] = [];
 
@@ -14,6 +15,8 @@ export const selectedSlice = createSlice({
       } else {
         state.push(movieId);
       }
+
+      toast.info(`Select ${state.length} movies`, { theme: 'colored' });
     },
   },
 });

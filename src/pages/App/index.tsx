@@ -1,6 +1,9 @@
+import { ToastContainer } from 'react-toastify';
 import { useTheme } from '../../context/ThemeContext';
 import Header from '../../component/Header';
 import Main from '../../component/Main';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const { theme } = useTheme();
@@ -11,6 +14,7 @@ const App: React.FC = () => {
     >
       <Header />
       <Main />
+      <ToastContainer />
     </div>
   );
 };
