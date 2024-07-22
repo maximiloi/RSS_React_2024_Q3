@@ -16,7 +16,10 @@ export const selectedSlice = createSlice({
         state.push(movieId);
       }
 
-      toast.info(`Select ${state.length} movies`, { theme: 'colored' });
+      toast.info(`Select ${state.length} movies`, {
+        theme: 'colored',
+        autoClose: 2000,
+      });
     },
   },
 });
