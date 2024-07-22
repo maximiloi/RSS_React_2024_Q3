@@ -15,7 +15,7 @@ import './style.scss';
 
 const Card = (): ReactElement => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [searchTermLS] = useLocalStorage();
+  const [searchTermLS] = useLocalStorage('');
   const { toggleSelected, updateTotalResults } = useActions();
   const selected = useSelector((state: RootState) => state.selected);
   const searchWord = useSelector((state: RootState) => state.search.searchWord);
