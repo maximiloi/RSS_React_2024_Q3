@@ -9,7 +9,7 @@ const api = createApi({
   }),
   endpoints: (builder) => ({
     getMovies: builder.query({
-      query: ({ searchTerm = 'star wars', page = '1' }) =>
+      query: ({ searchTerm, page }) =>
         `?apikey=67e1bb9b&type=movie&s=${searchTerm}&page=${page}`,
     }),
   }),

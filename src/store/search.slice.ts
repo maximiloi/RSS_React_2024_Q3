@@ -8,7 +8,7 @@ interface SearchState {
 
 const initialState: SearchState = {
   page: '1',
-  searchWord: '',
+  searchWord: 'star wars',
   totalResults: '0',
 };
 
