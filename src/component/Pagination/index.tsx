@@ -71,6 +71,7 @@ const Pagination = () => {
   };
 
   useEffect(() => {
+    if (!totalResultsStore) return;
     setTotalResults(totalResultsStore.toString());
   }, [totalResultsStore]);
 
