@@ -8,6 +8,7 @@ const useLocalStorage = (initialValue?: string) => {
   });
 
   useEffect(() => {
+    if (!value) return;
     localStorage.setItem(keyLocalStorage, JSON.stringify(value));
   }, [value]);
 
