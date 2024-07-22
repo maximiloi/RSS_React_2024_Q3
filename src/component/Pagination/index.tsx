@@ -73,6 +73,7 @@ const Pagination = () => {
   useEffect(() => {
     if (!totalResultsStore) return;
     setTotalResults(totalResultsStore.toString());
+    setActivePage(1);
   }, [totalResultsStore]);
 
   return <ul className="pagination">{renderPages()}</ul>;
