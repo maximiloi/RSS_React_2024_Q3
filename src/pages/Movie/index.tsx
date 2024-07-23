@@ -39,13 +39,13 @@ const Movie = () => {
   return (
     isActive && (
       <div
-        className="movie"
+        className="movie-desc"
         onClick={() => {
           handlerClose();
         }}
         aria-hidden="true"
       >
-        <div className="movie__content">
+        <div className="movie-desc__content">
           <h2>{Title}</h2>
           <img
             src={Poster === 'N/A' ? noMovieImg : Poster}

@@ -1,4 +1,4 @@
-export interface Movies {
+export interface Movie {
   Title: string;
   Year: string;
   imdbID: string;
@@ -7,7 +7,7 @@ export interface Movies {
 }
 
 interface ResponseMovies {
-  Search: Movies[];
+  Search: Movie[];
   totalResults: string;
   Response: 'True' | 'False';
 }

@@ -3,7 +3,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import useActions from '../../hooks/useActions';
 import Pagination from '../Pagination';
-import Card from '../Card';
+import Card from '../MoviesList';
 
 import './style.scss';
 
