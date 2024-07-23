@@ -9,7 +9,7 @@ import {
 
 type Theme = 'blue' | 'green';
 
-interface ThemeContextType {
+export interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
 }
