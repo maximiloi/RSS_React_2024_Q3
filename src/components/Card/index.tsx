@@ -33,9 +33,9 @@ const Card: React.FC = () => {
   const isExist = (item: string): boolean => selected.includes(item);
 
   const renderMovies = () => {
-    if (isLoading) {
-      return <Spinner />;
-    }
+    if (isLoading) return <Spinner />;
+
+    if (data.Response === 'False') return <h3>No Movies</h3>;
 
     return (
       <div className="card card__wrapper">
