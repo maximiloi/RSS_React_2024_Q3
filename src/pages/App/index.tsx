@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import { useTheme } from '../../context/ThemeContext';
-import Header from '../../component/Header';
-import Main from '../../component/Main';
+import Header from '../../components/Header';
+import Main from '../../components/Main';
 
 import 'react-toastify/dist/ReactToastify.css';
 
