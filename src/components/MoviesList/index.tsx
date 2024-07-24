@@ -6,8 +6,6 @@ import { useGetMoviesQuery } from '../../store/api';
 import Spinner from '../Spinner';
 import MovieCard from '../MovieCard';
 
-import './style.scss';
-
 const MoviesList: React.FC = () => {
   const { updateTotalResults } = useActions();
   const searchWord = useSelector((state: RootState) => state.search.searchWord);
@@ -32,7 +30,7 @@ const MoviesList: React.FC = () => {
 
     return (
       <div className="movie">
-        <MovieCard data={data.Search} />
+        <MovieCard movieData={data.Search} />
       </div>
     );
   };
