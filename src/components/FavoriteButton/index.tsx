@@ -9,7 +9,12 @@ import noFavMovie from '../../assets/no-fav.svg';
 const FavoriteButton = ({ imdbID }: { imdbID: string }) => {
   const { toggleSelected } = useActions();
   const selected = useSelector((state: RootState) => state.selected);
-  const isExist = (item: string) => selected.includes(item);
+  const isExist = (item: string) => {
+    if (selected && selected.includes(item)) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <button
