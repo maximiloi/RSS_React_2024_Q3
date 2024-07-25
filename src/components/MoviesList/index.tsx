@@ -8,8 +8,10 @@ import MovieCard from '../MovieCard';
 
 const MoviesList: React.FC = () => {
   const { updateTotalResults } = useActions();
-  const searchWord = useSelector((state: RootState) => state.search.searchWord);
-  const page = useSelector((state: RootState) => state.search.page);
+  const searchWord = useSelector(
+    (state: RootState) => state.search?.searchWord
+  );
+  const page = useSelector((state: RootState) => state.search?.page);
 
   const fetchData = useGetMoviesQuery({
     searchTerm: searchWord,
@@ -18,9 +20,8 @@ const MoviesList: React.FC = () => {
   const { data, isLoading } = fetchData;
 
   useEffect(() => {
-    if (data) {
-      updateTotalResults(data.totalResults);
-    }
+    if (!data) return;
+    updateTotalResults(data.totalResults);
   }, [data, updateTotalResults]);
 
   const renderMovies = () => {

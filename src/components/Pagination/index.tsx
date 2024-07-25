@@ -13,10 +13,10 @@ const Pagination: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const totalResultsStore = useSelector(
-    (state: RootState) => state.search.totalResults
+    (state: RootState) => state.search?.totalResults
   );
   const activePageStore = useSelector(
-    (state: RootState) => state.search.activePage
+    (state: RootState) => state.search?.activePage
   );
 
   const handleSetPage = (page: number) => {
@@ -75,7 +75,6 @@ const Pagination: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!totalResultsStore) return;
     setTotalResults(totalResultsStore.toString());
     setActivePage(activePageStore);
   }, [totalResultsStore, activePageStore]);
