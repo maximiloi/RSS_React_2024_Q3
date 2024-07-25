@@ -12,9 +12,11 @@ describe('ErrorButton', () => {
   });
 
   it('should throws an error when the button is clicked', () => {
+    render(<ErrorButton />);
+
     expect(() => {
-      render(<ErrorButton />);
-      fireEvent.click(screen.getByText('throw an error'));
-    }).toThrow('Something went wrong');
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+    }).toThrow(/Something went wrong/i);
   });
 });
