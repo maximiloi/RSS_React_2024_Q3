@@ -5,7 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { reducer } from '../../src/store/search.slice';
 import MovieCard from '../../src/components/MovieCard';
-import movieData from '../mock/movieData';
+import mockMovieData from '../mock/movieData';
 
 describe('MovieCard', () => {
   const store = configureStore({ reducer });
@@ -26,12 +26,12 @@ describe('MovieCard', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <MovieCard movieData={movieData} />
+          <MovieCard movieData={mockMovieData} />
         </MemoryRouter>
       </Provider>
     );
 
-    movieData.forEach((movie) => {
+    mockMovieData.forEach((movie) => {
       const heading = screen.getByRole('heading', { name: movie.Title });
       expect(heading).toBeInTheDocument();
     });
