@@ -12,9 +12,11 @@ const api = createApi({
       query: ({ searchTerm, page }) =>
         `?apikey=67e1bb9b&type=movie&s=${searchTerm}&page=${page}`,
     }),
+    getMovie: builder.query({
+      query: (imdbID) => `?apikey=67e1bb9b&i=${imdbID}`,
+    }),
   }),
 });
 
-export const { useGetMoviesQuery } = api;
-
+export const { useGetMoviesQuery, useGetMovieQuery } = api;
 export default api;

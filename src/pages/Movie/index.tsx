@@ -1,30 +1,18 @@
 import { useEffect, useState } from 'react';
-import { LoaderFunction, useLoaderData, useNavigate } from 'react-router-dom';
-import { fetchMovie, ResponseMovie } from '../../utils/apiResponse';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetMovieQuery } from '../../store/api';
 
 import noMovieImg from '../../assets/no-image.svg';
 import './style.scss';
-
-interface MovieId {
-  id: string;
-}
-
-export const movieLoader: LoaderFunction<{ params: MovieId }> = async ({
-  params,
-}) => {
-  try {
-    if (!params.id) return null;
-    const movieData = await fetchMovie(params.id);
-    return { movieData };
-  } catch (error) {
-    throw new Error('No fetch Movie data');
-  }
-};
+import Spinner from '../../components/Spinner';
 
 const Movie = () => {
-  const { movieData } = useLoaderData() as { movieData: ResponseMovie };
+  const { imdbID } = useParams();
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(true);
+
+  const movieData = useGetMovieQuery(imdbID);
+  const { data, isFetching, isSuccess } = movieData;
 
   const handlerClose = () => {
     setIsActive(false);
@@ -35,9 +23,13 @@ const Movie = () => {
     setIsActive(true);
   }, []);
 
-  const { Title, Poster, Director, Genre, Awards, Plot } = movieData;
-  return (
-    isActive && (
+  const { Title, Poster, Director, Genre, Awards, Plot } = data;
+
+  let content;
+  if (isFetching) {
+    content = <Spinner />;
+  } else if (isSuccess) {
+    content = (
       <div
         className="movie-desc"
         onClick={() => {
@@ -58,8 +50,9 @@ const Movie = () => {
           <p>Plot: {Plot}</p>
         </div>
       </div>
-    )
-  );
+    );
+  }
+  return isActive && content;
 };
 
 export default Movie;

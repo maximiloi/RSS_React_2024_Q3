@@ -6,7 +6,7 @@ import { ThemeProvider } from './context/ThemeContext';
 
 import App from './pages/App';
 import ErrorPage from './pages/ErrorPage';
-import Movie, { movieLoader } from './pages/Movie';
+import Movie from './pages/Movie';
 
 import './index.css';
 import { store } from './store/store';
@@ -18,9 +18,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'movie/:id',
+        path: 'movie/:imdbID',
         element: <Movie />,
-        loader: movieLoader,
       },
     ],
   },
