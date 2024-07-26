@@ -23,12 +23,21 @@ const Movie = () => {
     setIsActive(true);
   }, []);
 
-  const { Title, Poster, Director, Genre, Awards, Plot } = data;
-
   let content;
   if (isFetching) {
     content = <Spinner />;
   } else if (isSuccess) {
+    const { Title, Poster, Director, Genre, Awards, Plot } = data;
+    const posterContent =
+      Poster === 'N/A' ? (
+        <div className="no-poster">
+          <img src={noMovieImg} alt="Постер недоступен" width="300" />
+          <p>Постер недоступен</p>
+        </div>
+      ) : (
+        <img src={Poster} alt={Title} width="300" />
+      );
+
     content = (
       <div
         className="movie-desc"
@@ -39,11 +48,7 @@ const Movie = () => {
       >
         <div className="movie-desc__content">
           <h2>{Title}</h2>
-          <img
-            src={Poster === 'N/A' ? noMovieImg : Poster}
-            alt={Title}
-            width="300"
-          />
+          {posterContent}
           <p>Awards: {Awards}</p>
           <p>Director: {Director}</p>
           <p>Genre: {Genre}</p>
