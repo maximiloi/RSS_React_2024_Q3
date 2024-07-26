@@ -28,7 +28,7 @@ const Movie = () => {
 
   const handlerClose = () => {
     setIsActive(false);
-    navigate('/');
+    navigate(-1);
   };
 
   useEffect(() => {
