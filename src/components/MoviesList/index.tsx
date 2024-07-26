@@ -9,26 +9,25 @@ import MovieCard from '../MovieCard';
 
 const MoviesList: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const { updateTotalResults } = useActions();
+  const { updateActivePage, updateTotalResults } = useActions();
   const searchWord = useSelector(
     (state: RootState) => state.search?.searchWord
   );
-  const page = useSelector((state: RootState) => state.search?.page);
+  const pageStore = useSelector((state: RootState) => state.search?.page);
 
-  const urlSearchTerm = searchParams.get('search') || searchWord;
-  const urlPage = searchParams.get('page') || page;
+  const searchTerm = searchParams.get('search') || searchWord;
+  const page = searchParams.get('page') || pageStore;
 
   const fetchData = useGetMoviesQuery({
-    searchTerm: urlSearchTerm,
-    page: urlPage,
+    searchTerm,
+    page,
   });
   const { data, isLoading } = fetchData;
 
   useEffect(() => {
     if (!data) return;
     updateTotalResults(data.totalResults);
-    // if (!searchParams.get('page')) return;
-    // updateActivePage(parseInt(searchParams.get('page'), 10));
+    updateActivePage(parseInt(page, 10));
   }, [data, updateTotalResults]);
 
   const renderMovies = () => {
