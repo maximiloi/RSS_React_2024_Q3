@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import Pagination from '../Pagination';
-import Card from '../MoviesList';
+import MoviesList from '../MoviesList';
 
 import './style.scss';
 
@@ -12,7 +12,7 @@ const Main: React.FC = () => {
         <h2>Type in the title of the movie in English</h2>
         <Pagination />
       </div>
-      <Card />
+      <MoviesList />
       <Outlet />
     </main>
   );
