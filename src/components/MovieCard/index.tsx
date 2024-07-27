@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Movie } from '../../utils/apiResponse';
+import { Movie } from '../../utils/apiResponseType';
 import FavoriteButton from '../FavoriteButton';
 
 import noMovieImg from '../../assets/no-image.svg';
