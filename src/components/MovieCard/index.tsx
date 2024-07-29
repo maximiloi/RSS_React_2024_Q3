@@ -13,7 +13,7 @@ const MovieCard = ({ movieData }: { movieData: Movie[] }) => {
       {movieData &&
         movieData.map((movie: Movie) => (
           <div className="movie__item" key={movie.imdbID}>
-            <FavoriteButton imdbID={movie.imdbID} />
+            <FavoriteButton movie={movie} />
             <Link to={`/movie/${movie.imdbID}`}>
               <img
                 className="movie__img"
