@@ -3,6 +3,7 @@ import useActions from '../../hooks/useActions';
 import { RootState } from '../../store/store';
 
 import './style.scss';
+import saveToCSV from '../../utils/saveToCSV';
 
 const Modal: React.FC = () => {
   const { deleteSelected } = useActions();
@@ -24,7 +25,13 @@ const Modal: React.FC = () => {
           >
             Unselect all
           </button>
-          <button className="button" type="button">
+          <button
+            className="button"
+            type="button"
+            onClick={() => {
+              saveToCSV(selected);
+            }}
+          >
             Download
           </button>
         </div>
