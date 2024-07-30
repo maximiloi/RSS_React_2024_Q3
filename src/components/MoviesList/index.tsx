@@ -28,7 +28,7 @@ const MoviesList: React.FC = () => {
     if (!data) return;
     updateTotalResults(data.totalResults);
     updateActivePage(parseInt(page, 10));
-  }, [data, updateTotalResults]);
+  }, [data, updateTotalResults, page, updateActivePage]);
 
   const renderMovies = () => {
     if (isLoading) return <Spinner />;
