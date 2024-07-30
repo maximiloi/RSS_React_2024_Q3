@@ -10,7 +10,7 @@ vi.mock('react-toastify', () => ({
 }));
 
 describe('selectedSlice', () => {
-  const initialState: string[] = [];
+  const initialState: [] = [];
 
   it('should handle initial state', () => {
     expect(reducer(undefined, { type: '' })).toEqual(initialState);

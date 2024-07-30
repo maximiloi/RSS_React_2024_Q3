@@ -1,9 +1,7 @@
-import { ToastContainer } from 'react-toastify';
 import { useTheme } from '../../context/ThemeContext';
 import Header from '../../components/Header';
 import Main from '../../components/Main';
-
-import 'react-toastify/dist/ReactToastify.css';
+import Modal from '../../components/Modal';
 
 const App: React.FC = () => {
   const { theme } = useTheme();
@@ -14,7 +12,7 @@ const App: React.FC = () => {
     >
       <Header />
       <Main />
-      <ToastContainer />
+      <Modal />
     </div>
   );
 };
