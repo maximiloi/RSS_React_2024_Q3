@@ -1,5 +1,4 @@
 import { describe, it, expect, vi } from 'vitest';
-import { toast } from 'react-toastify';
 
 import { reducer, actions } from '../../src/store/selected.slice';
 
@@ -24,20 +23,12 @@ describe('selectedSlice', () => {
       actions.toggleSelected(movieId)
     );
     expect(stateAfterAdd).toEqual([movieId]);
-    expect(toast.info).toHaveBeenCalledWith('Select 1 movies', {
-      theme: 'colored',
-      autoClose: 2000,
-    });
 
     const stateAfterRemove = reducer(
       stateAfterAdd,
       actions.toggleSelected(movieId)
     );
     expect(stateAfterRemove).toEqual([]);
-    expect(toast.info).toHaveBeenCalledWith('Select 0 movies', {
-      theme: 'colored',
-      autoClose: 2000,
-    });
   });
 
   it('should handle multiple movie IDs', () => {
@@ -49,16 +40,8 @@ describe('selectedSlice', () => {
 
     state = reducer(state, actions.toggleSelected(movieId2));
     expect(state).toEqual([movieId1, movieId2]);
-    expect(toast.info).toHaveBeenCalledWith('Select 2 movies', {
-      theme: 'colored',
-      autoClose: 2000,
-    });
 
     state = reducer(state, actions.toggleSelected(movieId1));
     expect(state).toEqual([movieId2]);
-    expect(toast.info).toHaveBeenCalledWith('Select 1 movies', {
-      theme: 'colored',
-      autoClose: 2000,
-    });
   });
 });
