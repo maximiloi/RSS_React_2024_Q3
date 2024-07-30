@@ -12,7 +12,9 @@ const FavoriteButton = ({ movie }: { movie: Movie }) => {
     return state.selected;
   });
   const isExist = (compareItem: Movie): boolean => {
-    return selected.some((item) => item.imdbID === compareItem.imdbID);
+    return (
+      selected && selected.some((item) => item.imdbID === compareItem.imdbID)
+    );
   };
 
   return (
