@@ -1,9 +1,8 @@
 import { render, screen, fireEvent, renderHook } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-
 import { ThemeProvider, useTheme } from '../../src/context/ThemeContext';
 
-const TestComponent = () => {
+const TestComponent: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   return (
     <div>
@@ -70,8 +69,12 @@ describe('Context useTheme', () => {
   });
 
   it('should throw an error if it is used outside ThemeProvider', () => {
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
     try {
-      renderHook(() => useTheme());
+      renderHook(() => useTheme(), { wrapper });
     } catch (error) {
       expect(error).toEqual(
         new Error('Error useTheme must be used within a ThemeProvider')
