@@ -1,0 +1,20 @@
+.pagination {
+  list-style: none;
+
+  display: flex;
+  gap: 15px;
+  &__button {
+    border: none;
+    background-color: transparent;
+
+    &:hover {
+      cursor: pointer;
+      color: white;
+    }
+
+    &.active {
+      font-size: x-large;
+      color: white;
+    }
+  }
+}

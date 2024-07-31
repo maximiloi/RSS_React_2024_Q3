@@ -1,0 +1,26 @@
+.modal {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+
+  padding: 20px;
+  box-shadow: 10px 10px 14px 1px rgba(00, 00, 00, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  background-image: linear-gradient(
+    to right,
+    #4a70ca,
+    #4e6bc6,
+    #5266c2,
+    #5661be,
+    #5a5cba
+  );
+
+  &__inner {
+    display: flex;
+    gap: 20px;
+  }
+}
