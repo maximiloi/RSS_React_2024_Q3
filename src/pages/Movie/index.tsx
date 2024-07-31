@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetMovieQuery } from '../../store/api';
 
-import noMovieImg from '../../assets/no-image.svg';
 import './style.scss';
+
+import noMovieImg from '../../assets/no-image.svg';
 import Spinner from '../../components/Spinner';
 
 const Movie = () => {
